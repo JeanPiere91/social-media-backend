@@ -15,8 +15,10 @@ const userSchema = new Schema(
       required: true,
       unique: true,
       validate: {
-        validator: () => Promise.resolve(false),
-        message: 'Email validation failed'
+        validator: function(v) {
+          return /^([a-z0-9_.-]+)@([\da-z.-]+).([a-z.]{2,6})$/.test(v);
+        },
+        message: props => `${props.value} is not a valid phone number!`
       }
     },
     thoughts: [
@@ -35,9 +37,16 @@ const userSchema = new Schema(
   {
     toJSON: {
       getters: true,
+      virtuals: true,
     },
+    id: false,
   }
 );
+
+// Create a virtual property `friendCount` that gets the amount of friends per user
+userSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
+});
 
 const User = model('user', userSchema);
 
