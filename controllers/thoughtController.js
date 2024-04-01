@@ -5,7 +5,8 @@ module.exports = {
   async getThoughts(req, res) {
     try {
       const thoughts = await Thought.find()
-        .select('-id');
+        .select("-id");
+        
       res.json(thoughts);
     } catch (err) {
       res.status(500).json(err);
@@ -45,8 +46,7 @@ module.exports = {
         res.status(404).json({ message: 'No thought with that ID' });
       }
 
-      // await Student.deleteMany({ _id: { $in: course.students } });
-      // res.json({ message: 'Course and students deleted!' });
+      res.json({ message: 'Thought deleted!' });
     } catch (err) {
       res.status(500).json(err);
     }
@@ -62,6 +62,42 @@ module.exports = {
 
       if (!thought) {
         res.status(404).json({ message: 'No thought with this id!' });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // Adds a reaction to a thought. This method is unique in that we add the entire body of the reaction rather than the ID with the mongodb $addToSet operator.
+  async addReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $addToSet: { reactions: req.body } },
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        return res.status(404).json({ message: 'No thought with this id!' });
+      }
+
+      res.json(thought);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // Remove user friend. This method finds the user based on ID. It then updates the friends array associated with the user in question by removing it's friendId from the friends array.
+  async removeReaction(req, res) {
+    try {
+      const thought = await Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: {_id: req.params.reactionId}}},
+        { runValidators: true, new: true }
+      );
+
+      if (!thought) {
+        return res.status(404).json({ message: 'No thought with this id!' });
       }
 
       res.json(thought);

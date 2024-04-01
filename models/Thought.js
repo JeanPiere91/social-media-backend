@@ -1,5 +1,9 @@
 const { Schema, model } = require('mongoose');
 const reactionSchema = require('./Reaction');
+const dayjs = require('dayjs');
+const AdvancedFormat = require('dayjs/plugin/advancedFormat');
+
+dayjs.extend(AdvancedFormat);
 
 // Schema to create Thought model
 const thoughtSchema = new Schema(
@@ -11,8 +15,10 @@ const thoughtSchema = new Schema(
       maxLength: 280,
     },
     createdAt: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      default: function() {
+        return dayjs().format('MMM Do, YYYY [at] HH:mm a'); 
+      }
     },
     username: {
         type: String,

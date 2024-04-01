@@ -1,4 +1,8 @@
-const { Schema, model, mongoose } = require('mongoose');
+const { Schema, Types } = require('mongoose');
+const dayjs = require('dayjs');
+const AdvancedFormat = require('dayjs/plugin/advancedFormat');
+
+dayjs.extend(AdvancedFormat);
 
 // Schema to create Student model
 const reactionSchema = new Schema(
@@ -17,8 +21,10 @@ const reactionSchema = new Schema(
       required: true,
     },
     createdAt: {
-      type: Date,
-      default: Date.now,
+      type: String,
+      default: function() {
+        return dayjs().format('MMM Do, YYYY [at] HH:mm a'); 
+      }
     },
   },
   {
