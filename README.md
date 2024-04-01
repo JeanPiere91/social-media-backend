@@ -4,7 +4,7 @@
   ## Description
   
    MongoDB is a popular choice for many social networks due to its speed with large amounts of data and flexibility with unstructured data. 
-   The Challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. I’ll use Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the [Express.js](https://www.npmjs.com/package/express) and [Mongoose](https://www.npmjs.com/package/mongoose) packages, I am using a JavaScript date library called `Date.js` to format timestamps.
+   My Challenge is to build an API for a social network web application where users can share their thoughts, react to friends’ thoughts, and create a friend list. I am using Express.js for routing, a MongoDB database, and the Mongoose ODM. In addition to using the [Express.js](https://www.npmjs.com/package/express) and [Mongoose](https://www.npmjs.com/package/mongoose) packages, I am using a JavaScript date library called `Date.js` to format timestamps.
   
   ## Table of Contents
   
